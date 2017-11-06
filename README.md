@@ -44,6 +44,7 @@ I tried several different things to get the second course working. More data arg
 * More training data
 * Better filtering of excess data.
 * Adjust both the brightness and contrast of the image, as the second track as more lighting variations than the first.
+* The data is heavily biased tword driving forward, the excess data could be removed.
 
 The physics of the game world is not very reflective of real-world physics, as it the car as a rigid object. It doesn't properly simulate the suspension of a car has. This causes the car to fly off the road in situations that do not occur in real life. A real car would also hug the turns more efficiently than the simulation. A possible solution to this problem is to use a game that can be scripted with like GTA V. 
 
