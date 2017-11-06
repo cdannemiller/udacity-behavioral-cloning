@@ -12,7 +12,6 @@ import utils
 import matplotlib.pyplot as plt
 
 # Hyper parameters.
-steering_adjust = 0.15                      # The amount of adjustment to place on the controller for the left & right images.
 batch_size = 256                            # Number of images to train in each batch.
 epochs = 5                                  # Number of epochs to train for.
 
@@ -69,8 +68,6 @@ validation_samples = []
 # training set.
 for sample in train_samples_raw:
     train_samples.append([sample[0], sample[3]])
-    train_samples.append([sample[1], sample[3] + steering_adjust])
-    train_samples.append([sample[2], sample[3] - steering_adjust])
 
 for sample in validation_samples_raw:
     validation_samples.append([sample[0], sample[3]])

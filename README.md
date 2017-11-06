@@ -16,8 +16,6 @@ To train the model `python model.py` can be invoked. However, the training data 
 
 At first I just went around the track once; however, this wasn't enough data. To increase the amount of data captured per lap, I used a version of the simulator that records 50 frames a second. In the end, the training data consisted of two laps going around the track, another two laps going around the track in the opposite direction, and finally, in the last data set I would drive the car the edge, start recording and recover the care back to the center. This last data set was critical, as my datasets for driving around the track normally were too pristine and the network did not compensate.
 
-Most of the data have the car not turning either to the left or the right; this makes sense as most driving is done in a straight line. However, this does bias the network toward driving in a straight line. There is code in model.py to remove bins that have a large bais; this makes the distribution of the training data more Gaussian.
-
 To augment the data captured three transformations were done. The first is to simply invert the image and the steering angle, as suggested in the course videos. The second is to use the left and right images like in the course videos, however, I found an offset of 0.15 worked better for my system than the value of 0.2. Finally, since the images are converted into YUV space, adjusting the brightness of the images is trivial, and therefore is done during training to prevent the learning for getting a bais from a given light level.
 
 I also cropped the image in a similar fashion to the suggestion of the course video. I also found that the video could be shrunk by 50% without loss of accuracy, this not only makes training faster but also prediction.
@@ -28,15 +26,19 @@ For the design of the network, I started with the design described by NVIDIA's s
 
 To help address overfitting 50% dropouts are placed between the fully connected nodes.
 
+![Training Error](images/network.png)
+
 ### Color Issues
 One issue I encountered is despite the fact that the training seemed to go well it did not transfer to the client. I noticed that the red and blue channels were swapped between the training that was done in model.py and using the training model to drive the car in drive.py. To alleviate, this issue swapped the red and blue channels in drive.py. After making this change, the car was finally able to drive successfully around the track.
 
 ### Training and Validation
-The left, right and center images are used for training. However, the steering for the left and right images is adjusted by a fudge factor, and cannot be considered representative of the true data. Therefore the left and right images are not included in the validation set. The training and validation data are split between 80% and 20% of the original data respectively. There is not testing set in the case as the actual simulation is used as the testing set.
+I only used the center images are used for training. The left and right images caused issues, notably, it would cause the car to wobble. There is not testing set in the case as the actual simulation is used as the testing set.
 
 The training is done in batches of 256 this allows a large amount of data to be sent to the GPU. Also, I use generators, originally I didn't but the memory overhead of the application become too large, and the generator is a great way to reduce the amount of memory that is required to run the training.
 
 The system was training for five Epochs at this point the validation loss did not seem to be going down anymore. For the actual training the Adam optimizer was used, and the default learning rate did not have to be adjusted to achieve better results.
+
+![Training Error](images/error.png)
 
 ### Reflections
 
