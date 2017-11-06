@@ -34,7 +34,9 @@ One issue I encountered is despite the fact that the training seemed to go well 
 ### Training and Validation
 The left, right and center images are used for training. However, the steering for the left and right images is adjusted by a fudge factor, and cannot be considered representative of the true data. Therefore the left and right images are not included in the validation set. The training and validation data are split between 80% and 20% of the original data respectively. There is not testing set in the case as the actual simulation is used as the testing set.
 
-The system was training for five Epochs at this point the validation loss did not seem to be going down anymore.
+The training is done in batches of 256 this allows a large amount of data to be sent to the GPU. Also, I use generators, originally I didn't but the memory overhead of the application become too large, and the generator is a great way to reduce the amount of memory that is required to run the training.
+
+The system was training for five Epochs at this point the validation loss did not seem to be going down anymore. For the actual training the Adam optimizer was used, and the default learning rate did not have to be adjusted to achieve better results.
 
 ### Reflections
 
